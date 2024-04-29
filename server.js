@@ -1,31 +1,31 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const Product = require("./models/model.js");
-const productRoute = require("./routes/route.js");
-const app = express();
+// Importing required modules
+const express = require("express"); // Express.js for creating server
+const mongoose = require("mongoose"); // Mongoose for MongoDB object modeling
+const Product = require("./models/model.js"); // Importing the Product model
+const productRoute = require("./routes/route.js"); // Importing routes for products
+const app = express(); // Creating an instance of the Express application
 
-// middleware
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+// Middleware setup
+app.use(express.json()); // Parsing incoming JSON data
+app.use(express.urlencoded({extended: false})); // Parsing incoming URL-encoded data
 
-// routes
-app.use("/api/products", productRoute);
+// Routing setup
+app.use("/api/products", productRoute); // Using product routes for URLs starting with "/api/products"
 
-
+// Default route
 app.get("/", (req, res) => {
-  res.send("Hello from Node API Server Updated");
+  res.send("Hello from Node API Server Updated"); // Sending a response for the root URL
 });
 
+// Connecting to MongoDB Atlas cluster and starting the server
 mongoose
-  .connect(
-    "mongodb+srv://admin:mdb90ADC@cluster0.hxfvrck.mongodb.net/"
-  )
+  .connect("mongodb+srv://admin:mdb90ADC@cluster0.hxfvrck.mongodb.net/")
   .then(() => {
-    console.log("Connected to database!");
+    console.log("Connected to database!"); // Success message upon connection
     app.listen(3000, () => {
-      console.log("Server is running on port 3000");
+      console.log("Server is running on port 3000"); // Listening on port 3000 once connected
     });
   })
   .catch(() => {
-    console.log("Connection failed!");
+    console.log("Connection failed!"); // Failure message if connection fails
   });
